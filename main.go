@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -15,8 +14,6 @@ func main() {
 	originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
 
-	r := mux.NewRouter()
-	r.HandleFunc("/", serv1).Methods("GET")
 	fmt.Println("Listening on port 6767")
 	log.Fatal(http.ListenAndServe(":6767", handlers.CORS(originsOk, headersOk, methodsOk)(r)))
 }
