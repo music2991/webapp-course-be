@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"webapp-course-be/routes"
 
 	"github.com/gorilla/handlers"
 )
@@ -14,13 +15,10 @@ func main() {
 	originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
 
+	r := routes.CreateRouter()
+
 	fmt.Println("Listening on port 6767")
 	log.Fatal(http.ListenAndServe(":6767", handlers.CORS(originsOk, headersOk, methodsOk)(r)))
-}
-
-func serv1(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application-json")
-	w.Write([]byte("Hello world"))
 }
 
 /* Notes:

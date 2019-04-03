@@ -4,12 +4,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var r = mux.NewRouter()
+var r *mux.Router
 
 func CreateRouter() *mux.Router {
-	return r
-}
+	r = mux.NewRouter()
+	var routes []routeModel
+	routes = append(routes, getProductRoutes()...)
 
-func createRoutes(router *mux.Router) {
-	r.HandleFunc("/", serv1).Methods("GET")
+	for _, route := range routes {
+		r.HandleFunc(route.Path, route.Handler).Methods(route.Method)
+	}
+	return r
 }
